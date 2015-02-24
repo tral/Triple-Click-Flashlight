@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <color name="lolli_primary">#607D8B</color> <!-- 500 -->
+    <color name="lolli_top">#455A64</color> <!-- 700 -->
+    <color name="lolli_background">#263238</color> <!-- 50 light / 900 dark -->
+    <color name="lolli_btn">#90A4AE</color> <!-- 300 -->
+
+
+    <color name="accent">#FFFF00</color> <!-- A200 -->
+    <color name="accent_pressed">#FFEA00</color> <!-- A400 -->
+    <color name="ripple">#FFFF8D</color> <!-- A100 -->
+
+</resources>

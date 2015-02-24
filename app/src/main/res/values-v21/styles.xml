@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+        В манифесте у нас прописана поддержка API, начиная с 14, т.ч. поддерживаем
+        только дефолтный styles.xml и для v21
+    -->
+
+
+
+
+    <style name="AppTheme" parent="BaseTheme">
+
+        <item name="android:colorButtonNormal">@color/lolli_btn</item>
+
+
+    </style>
+
+</resources>

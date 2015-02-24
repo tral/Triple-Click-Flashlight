@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name" translatable="false">Triple-Click Flashlight</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="error_flash_on">Can\'t turn flashlight on</string>
+    <string name="error_flash_off">Can\'t turn flashlight off</string>
+    <string name="pref_about_summary">Version</string>
+    <string name="pref_notificatinons">Notifications</string>
+    <string name="pref_vibrate">Vibration</string>
+    <string name="pref_vibrate_summary">Vibrate during switching the flashlight on and off</string>
+    <string name="pref_general">General</string>
+    <string name="pref_about">About</string>
+    <string name="pref_intervals">Interval</string>
+    <string name="pref_intervals_summary">The time interval during which you need to do 3 clicks</string>
+    <string name="hello_str">Hello</string>
+    <string name="first_run_content">To switch on the flashlight just click 3 times on your phone\'s hardware Power Button.
+        \nMake sure that you click not very fast (the screen should turn on/off).
+        \nSo, if you click 3 times during 2 seconds interval (yo can change it in Settings), the flashlight will turn on. To turn it off, click 3 times again.</string>
+    <string name="its_clear_btn">It\'s clear</string>
+
+</resources>
