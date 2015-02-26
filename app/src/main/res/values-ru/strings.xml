@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="action_settings">Настройки</string>
+    <string name="error_flash_on">Не могу включить вспышку</string>
+    <string name="error_flash_off">Не могу выключить вспышку</string>
+    <string name="pref_about_summary">Версия</string>
+    <string name="pref_notificatinons">Уведомления</string>
+    <string name="pref_vibrate">Вибрация</string>
+    <string name="pref_vibrate_summary">Вибрировать во время включения и выключения фонарика</string>
+    <string name="pref_general">Общие</string>
+    <string name="pref_about">О программе</string>
+    <string name="pref_intervals">Интервал</string>
+    <string name="pref_intervals_summary">Время, за которое нужно сделать 3 клика</string>
+    <string name="hello_str">Привет</string>
+    <string name="first_run_content">Чтобы включить фонарик, просто нажмите 3 раза кнопку включения вашего телефона.
+        \nУбедитесь, что не нажимаете на неё слишком быстро (экран должен успевать гаснуть и включаться).
+        \nВы, однако, должны успеть кликнуть 3 раза в течение 2-секундного интервала (можно изменить в Настройках). Чтобы отключить фонарик, кликните 3 раза снова.</string>
+    <string name="its_clear_btn">Все понятно</string>
+    <string name="notify_title">Фонарик включен</string>
+    <string name="notify_desc1">Нажмите, чтобы выключить</string>
+    <string name="notify_desc2">или используйте тройной клик</string>
+
+    <!-- Donations -->
+    <string name="donate_title_1">Поездка на автобусе</string>
+    <string name="donate_title_2">Вкусный гамбургер</string>
+    <string name="donate_title_3">Хорошее пивко</string>
+    <string name="donate_title_4">Билет в кино</string>
+    <string name="donate_title_5">Оплатить вечеринку! Тусэ!</string>
+
+    <string name="menu_item_donate">Пожертвование</string>
+
+    <string name="donation_title">Спасибо за пожертвование!</string>
+    <string name="donation_desc">
+        \nЕсли вам нравится приложение, то вы можете помочь разработчику купить что-то из этого списка:
+        \n
+    </string>
+
+    <string name="donation_already_purchased">Вы уже сделали это пожертвование! Спасибо кстати!</string>
+    <string name="donation_restore_purchases">Восстановить покупки</string>
+    <string name="donation_billing_not_ready">Ваша биллинговая система не подключена!</string>
+
+    <string name="changelog_full_title">История изменений</string>
+    <string name="changelog_title">Что нового</string>
+    <string name="changelog_ok_button">OK</string>
+    <string name="changelog_show_full">Еще…</string>
+
+</resources>

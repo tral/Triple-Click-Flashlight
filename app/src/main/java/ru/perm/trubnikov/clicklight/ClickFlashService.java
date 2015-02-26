@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -14,6 +15,9 @@ import android.util.Log;
 public class ClickFlashService extends Service {
 
     final String LOG_TAG = "ClickFlash";
+    final static String BROADCAST_ACTION = "ru.perm.trubnikov.clicklight.action";
+    public static final int FOREGROUND_SERVICE_ID = 25375;
+    public static final int BROADCAST_FLASH_TOGGLED = 1;
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -30,50 +34,91 @@ public class ClickFlashService extends Service {
 
         long cur = System.currentTimeMillis();
         long diff = Utils.diff3(settings.getLong("preLastClick", 0), settings.getLong("lastClick", 0), cur);
-/*
-        Log.d(LOG_TAG, settings.getLong("preLastClick", 0) + " -pre");
+
+        /*Log.d(LOG_TAG, settings.getLong("preLastClick", 0) + " -pre");
         Log.d(LOG_TAG, settings.getLong("lastClick", 0) + " -last");
         Log.d(LOG_TAG, cur + " -cur");
         Log.d(LOG_TAG, diff + " -diff");*/
 
         if (diff > 0 && diff < Integer.parseInt(settings.getString("prefInterval", "2000"))) {
-            Utils.flashlightToggle(getApplicationContext());
-            if (settings.getBoolean("prefVibrate", true)) {
-                Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-                v.vibrate(200);
-            }
-            cur = 0;
+            flashToggle(settings.getBoolean("prefVibrate", true));
+            resetTimeStamps(settings);
+        } else {
+            updateTimeStamps(settings, cur);
         }
 
+
+    }
+
+    // Sends update message to activity (for updating FAB image)
+    protected void sendMessageToActivity() {
+        Intent intent = new Intent();
+        intent.setAction(BROADCAST_ACTION);
+        intent.putExtra("DATAPASSED", BROADCAST_FLASH_TOGGLED);
+        sendBroadcast(intent);
+    }
+
+    protected void updateTimeStamps(SharedPreferences settings, long cur) {
         SharedPreferences.Editor editor = settings.edit();
         editor.putLong("preLastClick", settings.getLong("lastClick", 0));
         editor.putLong("lastClick", cur);
         editor.commit();
     }
 
+    protected void resetTimeStamps(SharedPreferences settings) {
+        updateTimeStamps(settings, 0);
+    }
+
+    protected void flashToggle(boolean isVibrate) {
+
+        Utils.flashlightToggle(getApplicationContext());
+
+        if (Utils.isFlashOn()) {
+            startForeground(FOREGROUND_SERVICE_ID, Utils.getNotification(getApplicationContext()));
+        } else {
+            stopForeground(true);
+        }
+
+        if (isVibrate) {
+            Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+            v.vibrate(200);
+        }
+
+        sendMessageToActivity();
+    }
 
     public void onCreate() {
         super.onCreate();
 
-        Log.d(LOG_TAG, "onCreate");
-
         final IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
-
         registerReceiver(receiver, filter);
 
+        Log.d(LOG_TAG, "onCreate");
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        if (intent != null) {
+            Bundle b = intent.getExtras();
+            String cmd = b.getString("cmd");
+
+            if (cmd.equalsIgnoreCase("toggle")) {
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                flashToggle(settings.getBoolean("prefVibrate", true));
+                resetTimeStamps(settings);
+            }
+        }
+
         Log.d(LOG_TAG, "onStartCommand");
         return super.onStartCommand(intent, flags, startId);
     }
 
+    @Override
     public void onDestroy() {
         if (receiver != null) {
             unregisterReceiver(receiver);
         }
-
         super.onDestroy();
         Log.d(LOG_TAG, "onDestroy");
     }
@@ -82,4 +127,5 @@ public class ClickFlashService extends Service {
         Log.d(LOG_TAG, "onBind");
         return null;
     }
+
 }

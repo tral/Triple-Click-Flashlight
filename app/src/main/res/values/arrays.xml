@@ -2,6 +2,7 @@
 <resources>
     <string-array name="intervals">
         <item>1 sec</item>
+        <item>1.5 sec</item>
         <item>2 sec</item>
         <item>3 sec</item>
         <item>4 sec</item>
@@ -9,6 +10,7 @@
     </string-array>
     <string-array name="intervalsValues">
         <item>1000</item>
+        <item>1500</item>
         <item>2000</item>
         <item>3000</item>
         <item>4000</item>

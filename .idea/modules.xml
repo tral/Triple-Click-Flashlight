@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ClickLightApp.iml" filepath="$PROJECT_DIR$/ClickLightApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Triple-Click-Flashlight.iml" filepath="$PROJECT_DIR$/Triple-Click-Flashlight.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

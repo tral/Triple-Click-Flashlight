@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Triple-Click Flashlight</string>
 
@@ -17,5 +18,32 @@
         \nMake sure that you click not very fast (the screen should turn on/off).
         \nSo, if you click 3 times during 2 seconds interval (yo can change it in Settings), the flashlight will turn on. To turn it off, click 3 times again.</string>
     <string name="its_clear_btn">It\'s clear</string>
+    <string name="notify_title">Flashlight is turned on</string>
+    <string name="notify_desc1">Tap to turn in off</string>
+    <string name="notify_desc2">or make 3 clicks</string>
+
+    <!-- Donations -->
+    <string name="donate_title_1">Bus ride</string>
+    <string name="donate_title_2">Tasty hamburger</string>
+    <string name="donate_title_3">Good beer</string>
+    <string name="donate_title_4">Cinema ticket</string>
+    <string name="donate_title_5">Pay for the party! Lets\'s rock!</string>
+
+    <string name="menu_item_donate">Donate</string>
+
+    <string name="donation_title">Thank you for donating!</string>
+    <string name="donation_desc">
+        \nIf you like this application, you can help developer to buy anything from the following list:
+        \n
+    </string>
+
+    <string name="donation_already_purchased">You have already made this donation! Thanks for that by the way!</string>
+    <string name="donation_restore_purchases">Restore purchases</string>
+    <string name="donation_billing_not_ready">Your billing system is not ready!</string>
+
+    <string name="changelog_full_title">Change Log</string>
+    <string name="changelog_title">What\'s New</string>
+    <string name="changelog_ok_button">OK</string>
+    <string name="changelog_show_full">More…</string>
 
 </resources>

@@ -1,21 +1,30 @@
 package ru.perm.trubnikov.clicklight;
 
 import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
-import android.preference.PreferenceManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.view.Gravity;
 import android.widget.Toast;
 
 public class Utils {
 
     public static Camera cam = null;// has to be static, otherwise onDestroy() destroys it
+    public static final int NOTIFICATION_ID = 1;
 
     public static boolean flashlightToggle(Context context) {
         if (cam == null) {
             flashlightOn(context);
+            //sendNotification(context);
             return true;
         } else {
             flashlightOff(context);
@@ -23,6 +32,31 @@ public class Utils {
         }
     }
 
+    public static Notification getNotification(Context context) {
+        Intent intent = new Intent(context, NotifyActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+
+        builder.setSmallIcon(R.drawable.ic_notify);
+
+        builder.setContentIntent(pendingIntent);
+
+        builder.setAutoCancel(true);
+
+        if (Build.VERSION.SDK_INT > 13) {
+            builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher));
+        }
+
+        builder.setContentTitle(context.getResources().getString(R.string.notify_title));
+        builder.setContentText(context.getResources().getString(R.string.notify_desc1));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            builder.setSubText(context.getResources().getString(R.string.notify_desc2));
+        }
+
+        return builder.build();
+    }
 
     public static boolean isFlashOn() {
         return !(cam == null);
@@ -63,6 +97,12 @@ public class Utils {
                     Toast.LENGTH_SHORT).show();
         }
 
+        try {
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+            notificationManager.cancel(NOTIFICATION_ID);
+        } catch (Exception e) {
+        }
+
     }
 
     public static void setPreviewTexture() {
@@ -86,6 +126,21 @@ public class Utils {
         }
 
         return (c - p);
+    }
+
+    public static void ShowToast(Context context, int txt, int lng) {
+        Toast toast = Toast.makeText(context, txt, lng);
+        toast.setGravity(Gravity.TOP, 0, 0);
+        toast.show();
+    }
+
+    protected static void startSvc(Context c, String cmd) {
+        Intent intent = new Intent(c, ClickFlashService.class);
+        Bundle b = new Bundle();
+        b.putString("cmd", cmd);
+        intent.putExtras(b);
+        c.startService(intent);
+
     }
 
 }

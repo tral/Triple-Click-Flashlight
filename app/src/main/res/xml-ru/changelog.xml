@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+    <release
+        version="1.0.7"
+        versioncode="7">
+        <change>Исправления в работе фонарика</change>
+        <change>История изменений</change>
+    </release>
+    <release
+        version="1.0.6"
+        versioncode="6">
+        <change>Добавлен русский язык</change>
+        <change>В панели уведомлений во время работы фонарика теперь показывается значок</change>
+        <change>Теперь можно сделать пожертвование автору</change>
+    </release>
+    <release
+        version="1.0.5"
+        versioncode="5">
+        <change>Первая версия
+        </change>
+    </release>
+</changelog>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog>
+    <release
+        version="1.0.7"
+        versioncode="7">
+        <change>Fixes and improvements</change>
+        <change>Changelog added</change>
+    </release>
+    <release
+        version="1.0.6"
+        versioncode="6">
+        <change>Added Russian language</change>
+        <change>If the flashlight is turned on, you can see app icon in the Status Bar</change>
+        <change>Now you can make a donation</change>
+    </release>
+    <release
+        version="1.0.5"
+        versioncode="5">
+        <change>First version
+        </change>
+    </release>
+</changelog>
