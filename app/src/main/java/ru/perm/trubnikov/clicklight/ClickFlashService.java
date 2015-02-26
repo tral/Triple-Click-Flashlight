@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
@@ -80,8 +81,23 @@ public class ClickFlashService extends Service {
         }
 
         if (isVibrate) {
-            Vibrator v = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-            v.vibrate(200);
+
+            try {
+                final Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                v.vibrate(200);
+                // Possible constant vibration fix?
+                /* final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //Do something after 200ms (avoid random vibrations, Nexus 5)
+                        v.cancel();
+                    }
+                }, 200);*/
+
+            } catch (Exception e) {
+
+            }
         }
 
         sendMessageToActivity();

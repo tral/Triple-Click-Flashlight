@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="1.0.8"
+        versioncode="8">
+        <change>Vibration issue fix</change>
+    </release>
+    <release
         version="1.0.7"
         versioncode="7">
         <change>Fixes and improvements</change>
