@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.0.8 / 27.02.2015
+- Vibration issue fix
+
 ## v1.0.7 / 26.02.2015
 - Fixes and improvements
 - Changelog added

@@ -19,7 +19,8 @@ public class ClickFlashService extends Service {
     final static String BROADCAST_ACTION = "ru.perm.trubnikov.clicklight.action";
     public static final int FOREGROUND_SERVICE_ID = 25375;
     public static final int BROADCAST_FLASH_TOGGLED = 1;
-
+    private final ScreenReceiver receiver = new ScreenReceiver();
+/*
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -27,7 +28,7 @@ public class ClickFlashService extends Service {
                 handleClick();
             }
         }
-    };
+    };*/
 
     protected void handleClick() {
 
@@ -35,8 +36,9 @@ public class ClickFlashService extends Service {
 
         long cur = System.currentTimeMillis();
         long diff = Utils.diff3(settings.getLong("preLastClick", 0), settings.getLong("lastClick", 0), cur);
-
-        /*Log.d(LOG_TAG, settings.getLong("preLastClick", 0) + " -pre");
+/*
+        Log.d(LOG_TAG, "------------------------");
+        Log.d(LOG_TAG, settings.getLong("preLastClick", 0) + " -pre");
         Log.d(LOG_TAG, settings.getLong("lastClick", 0) + " -last");
         Log.d(LOG_TAG, cur + " -cur");
         Log.d(LOG_TAG, diff + " -diff");*/
@@ -123,7 +125,10 @@ public class ClickFlashService extends Service {
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 flashToggle(settings.getBoolean("prefVibrate", true));
                 resetTimeStamps(settings);
+            } else if (cmd.equalsIgnoreCase("scr_on") || cmd.equalsIgnoreCase("scr_off")) {
+                handleClick();
             }
+
         }
 
         Log.d(LOG_TAG, "onStartCommand");
