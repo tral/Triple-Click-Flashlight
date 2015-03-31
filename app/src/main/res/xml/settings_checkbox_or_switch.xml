@@ -9,5 +9,11 @@
             android:summary="@string/pref_vibrate_summary"
             android:title="@string/pref_vibrate" />
 
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="prefBlockIfInCall"
+            android:summary="@string/block_if_in_call_sum"
+            android:title="@string/block_if_in_call" />
+
     </PreferenceCategory>
 </PreferenceScreen>

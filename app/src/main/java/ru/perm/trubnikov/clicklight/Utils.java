@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
@@ -141,6 +142,17 @@ public class Utils {
         intent.putExtras(b);
         c.startService(intent);
 
+    }
+
+    // Android API to check if call is Active or On Hold
+    public static boolean isCallActive(Context context){
+        AudioManager manager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+        if(manager.getMode()==AudioManager.MODE_IN_CALL){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
 }

@@ -45,4 +45,7 @@
     <string name="changelog_ok_button">OK</string>
     <string name="changelog_show_full">Еще…</string>
 
+    <string name="block_if_in_call">Блокировать во время звонка</string>
+    <string name="block_if_in_call_sum">Не включать фонарик во время звонка</string>
+
 </resources>

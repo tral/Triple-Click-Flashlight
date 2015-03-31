@@ -46,4 +46,7 @@
     <string name="changelog_ok_button">OK</string>
     <string name="changelog_show_full">More…</string>
 
+    <string name="block_if_in_call">Block while in call</string>
+    <string name="block_if_in_call_sum">Do not turn on the flashlight while in call</string>
+
 </resources>

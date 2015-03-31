@@ -123,7 +123,12 @@ public class ClickFlashService extends Service {
 
             if (cmd.equalsIgnoreCase("toggle")) {
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                flashToggle(settings.getBoolean("prefVibrate", true));
+
+                // Если установили в настройках запрет срабатывания при вызове и идет вызов - не включаем фонарик
+                if (!(settings.getBoolean("prefBlockIfInCall", true) && Utils.isCallActive(getApplicationContext()))) {
+                    flashToggle(settings.getBoolean("prefVibrate", true));
+                }
+
                 resetTimeStamps(settings);
             } else if (cmd.equalsIgnoreCase("scr_on") || cmd.equalsIgnoreCase("scr_off")) {
                 handleClick();

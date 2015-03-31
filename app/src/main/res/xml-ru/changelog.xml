@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="1.1.1"
+        versioncode="11">
+        <change>Опция для блокировки фонарика во время звонка</change>
+    </release>
+    <release
+        version="1.1.0"
+        versioncode="10">
+        <change>Исправлена проблема с автозапуском сервиса при старте системы</change>
+    </release>
+    <release
+        version="1.0.9"
+        versioncode="9">
+        <change>Теперь фонарик включается независимо от состояния экрана</change>
+    </release>
+    <release
         version="1.0.8"
         versioncode="8">
         <change>Исправлена проблема с вибрацией</change>

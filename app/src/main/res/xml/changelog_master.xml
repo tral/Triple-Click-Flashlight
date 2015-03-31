@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="1.1.1"
+        versioncode="11">
+        <change>Option for the flashlight blocking while in call</change>
+    </release>
+    <release
+        version="1.1.0"
+        versioncode="10">
+        <change>Fixed service automatic launch issue</change>
+    </release>
+    <release
+        version="1.0.9"
+        versioncode="9">
+        <change>Now flashlight works correctly in any screen state</change>
+    </release>
+    <release
         version="1.0.8"
         versioncode="8">
         <change>Vibration issue fix</change>
