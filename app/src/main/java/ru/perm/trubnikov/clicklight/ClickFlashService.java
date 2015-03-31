@@ -1,17 +1,18 @@
 package ru.perm.trubnikov.clicklight;
 
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ClickFlashService extends Service {
 
@@ -20,15 +21,30 @@ public class ClickFlashService extends Service {
     public static final int FOREGROUND_SERVICE_ID = 25375;
     public static final int BROADCAST_FLASH_TOGGLED = 1;
     private final ScreenReceiver receiver = new ScreenReceiver();
-/*
-    private final BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF) || intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
-                handleClick();
+
+    private Timer timer;
+
+    private void handleFlashToggle(SharedPreferences settings) {
+
+        // Если установили в настройках запрет срабатывания при вызове и идет вызов - не включаем фонарик
+        if (!(settings.getBoolean("prefBlockIfInCall", true) && Utils.isCallActive(getApplicationContext()))) {
+            flashToggle(settings.getBoolean("prefVibrate", true));
+        }
+        resetTimeStamps(settings);
+
+        // Если в настройках есть автоотключение
+        int auto_off = Integer.parseInt(settings.getString("prefAutooff", "2"));
+        if (auto_off > 0) {
+            if (Utils.isFlashOn()) {
+                timer = new Timer();
+                timer.schedule(new timerTask(), auto_off * 60 * 1000);
+                Log.d(LOG_TAG, "---> Timer Sheduled: " + auto_off * 60 * 1000);
+            } else {
+                timer.cancel();
+                Log.d(LOG_TAG, "---> Timer Cancelled!");
             }
         }
-    };*/
+    }
 
     protected void handleClick() {
 
@@ -36,20 +52,12 @@ public class ClickFlashService extends Service {
 
         long cur = System.currentTimeMillis();
         long diff = Utils.diff3(settings.getLong("preLastClick", 0), settings.getLong("lastClick", 0), cur);
-/*
-        Log.d(LOG_TAG, "------------------------");
-        Log.d(LOG_TAG, settings.getLong("preLastClick", 0) + " -pre");
-        Log.d(LOG_TAG, settings.getLong("lastClick", 0) + " -last");
-        Log.d(LOG_TAG, cur + " -cur");
-        Log.d(LOG_TAG, diff + " -diff");*/
 
         if (diff > 0 && diff < Integer.parseInt(settings.getString("prefInterval", "2000"))) {
-            flashToggle(settings.getBoolean("prefVibrate", true));
-            resetTimeStamps(settings);
+            handleFlashToggle(settings);
         } else {
             updateTimeStamps(settings, cur);
         }
-
 
     }
 
@@ -123,13 +131,7 @@ public class ClickFlashService extends Service {
 
             if (cmd.equalsIgnoreCase("toggle")) {
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-                // Если установили в настройках запрет срабатывания при вызове и идет вызов - не включаем фонарик
-                if (!(settings.getBoolean("prefBlockIfInCall", true) && Utils.isCallActive(getApplicationContext()))) {
-                    flashToggle(settings.getBoolean("prefVibrate", true));
-                }
-
-                resetTimeStamps(settings);
+                handleFlashToggle(settings);
             } else if (cmd.equalsIgnoreCase("scr_on") || cmd.equalsIgnoreCase("scr_off")) {
                 handleClick();
             }
@@ -138,6 +140,17 @@ public class ClickFlashService extends Service {
 
         Log.d(LOG_TAG, "onStartCommand");
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private class timerTask extends TimerTask {
+        public void run() {
+            Log.d(LOG_TAG, "---> timerTask Launched! ");
+            // Если фонарик светит, тогда вырубим его
+            if (Utils.isFlashOn()) {
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                flashToggle(settings.getBoolean("prefVibrate", true));
+            }
+        }
     }
 
     @Override

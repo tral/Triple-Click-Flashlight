@@ -49,4 +49,7 @@
     <string name="block_if_in_call">Block while in call</string>
     <string name="block_if_in_call_sum">Do not turn on the flashlight while in call</string>
 
+    <string name="pref_autooff">Auto Off</string>
+    <string name="pref_autooff_sum">Time to automatic switching off</string>
+
 </resources>

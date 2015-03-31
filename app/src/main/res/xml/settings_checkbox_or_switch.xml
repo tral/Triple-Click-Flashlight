@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/pref_notificatinons">
+    <PreferenceCategory android:title="@string/pref_general">
+
+        <ListPreference
+            android:defaultValue="2000"
+            android:entries="@array/intervals"
+            android:entryValues="@array/intervalsValues"
+            android:key="prefInterval"
+            android:summary="@string/pref_intervals_summary"
+            android:title="@string/pref_intervals" />
 
         <CheckBoxPreference
             android:defaultValue="true"
@@ -14,6 +22,14 @@
             android:key="prefBlockIfInCall"
             android:summary="@string/block_if_in_call_sum"
             android:title="@string/block_if_in_call" />
+
+        <ListPreference
+            android:defaultValue="2"
+            android:entries="@array/autooff"
+            android:entryValues="@array/autooffValues"
+            android:key="prefAutooff"
+            android:summary="@string/pref_autooff_sum"
+            android:title="@string/pref_autooff" />
 
     </PreferenceCategory>
 </PreferenceScreen>

@@ -15,7 +15,6 @@ public class PrefsFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
 
         // Load the preferences from an XML resource
-        addPreferencesFromResource(R.xml.settings);
         addPreferencesFromResource(R.xml.settings_checkbox_or_switch);
         addPreferencesFromResource(R.xml.settings_about);
 

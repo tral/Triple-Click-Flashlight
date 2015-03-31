@@ -16,4 +16,24 @@
         <item>4000</item>
         <item>5000</item>
     </string-array>
+    <string-array name="autooff">
+        <item>Не отключать</item>
+        <item>1 мин</item>
+        <item>2 мин</item>
+        <item>3 мин</item>
+        <item>5 мин</item>
+        <item>10 мин</item>
+        <item>15 мин</item>
+        <item>20 мин</item>
+    </string-array>
+    <string-array name="autooffValues">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+    </string-array>
 </resources>
