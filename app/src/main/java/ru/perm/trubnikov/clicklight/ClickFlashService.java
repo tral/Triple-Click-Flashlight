@@ -28,22 +28,26 @@ public class ClickFlashService extends Service {
 
         // Если установили в настройках запрет срабатывания при вызове и идет вызов - не включаем фонарик
         if (!(settings.getBoolean("prefBlockIfInCall", true) && Utils.isCallActive(getApplicationContext()))) {
-            flashToggle(settings.getBoolean("prefVibrate", true));
-        }
-        resetTimeStamps(settings);
 
-        // Если в настройках есть автоотключение
-        int auto_off = Integer.parseInt(settings.getString("prefAutooff", "2"));
-        if (auto_off > 0) {
-            if (Utils.isFlashOn()) {
-                timer = new Timer();
-                timer.schedule(new timerTask(), auto_off * 60 * 1000);
-                Log.d(LOG_TAG, "---> Timer Sheduled: " + auto_off * 60 * 1000);
-            } else {
-                timer.cancel();
-                Log.d(LOG_TAG, "---> Timer Cancelled!");
+            // Переключаем фонарик
+            flashToggle(settings.getBoolean("prefVibrate", true));
+
+            // Если в настройках есть автоотключение
+            int auto_off = Integer.parseInt(settings.getString("prefAutooff", "2"));
+            if (auto_off > 0) {
+                if (Utils.isFlashOn()) {
+                    timer = new Timer();
+                    timer.schedule(new timerTask(), auto_off * 60 * 1000);
+                    Log.d(LOG_TAG, "---> Timer Sheduled: " + auto_off * 60 * 1000);
+                } else {
+                    timer.cancel();
+                    Log.d(LOG_TAG, "---> Timer Cancelled!");
+                }
             }
         }
+
+        resetTimeStamps(settings);
+
     }
 
     protected void handleClick() {
