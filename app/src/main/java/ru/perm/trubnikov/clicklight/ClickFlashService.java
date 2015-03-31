@@ -151,6 +151,7 @@ public class ClickFlashService extends Service {
             Log.d(LOG_TAG, "---> timerTask Launched! ");
             // Если фонарик светит, тогда вырубим его
             if (Utils.isFlashOn()) {
+                timer.cancel(); // освобождаем таймер (может быть это и не требуется)
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 flashToggle(settings.getBoolean("prefVibrate", true));
             }
