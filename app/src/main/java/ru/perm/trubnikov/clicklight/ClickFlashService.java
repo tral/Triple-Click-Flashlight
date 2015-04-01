@@ -33,14 +33,18 @@ public class ClickFlashService extends Service {
             flashToggle(settings.getBoolean("prefVibrate", true));
 
             // Если в настройках есть автоотключение
-            int auto_off = Integer.parseInt(settings.getString("prefAutooff", "2"));
+            int auto_off = Integer.parseInt(settings.getString("prefAutooff", "5"));
             if (auto_off > 0) {
                 if (Utils.isFlashOn()) {
                     timer = new Timer();
                     timer.schedule(new timerTask(), auto_off * 60 * 1000);
                     Log.d(LOG_TAG, "---> Timer Sheduled: " + auto_off * 60 * 1000);
                 } else {
-                    timer.cancel();
+                    try {
+                        timer.cancel();
+                    } catch (Exception e) {
+                        Log.d(LOG_TAG, "---> timer.cancel(); EXCEPTION --->!");
+                    }
                     Log.d(LOG_TAG, "---> Timer Cancelled!");
                 }
             }
@@ -110,7 +114,7 @@ public class ClickFlashService extends Service {
                 }, 200);*/
 
             } catch (Exception e) {
-
+                Log.d(LOG_TAG, "EXCEPTION!!!!!! ---> Vibrator");
             }
         }
 

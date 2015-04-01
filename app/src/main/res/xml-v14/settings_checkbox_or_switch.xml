@@ -24,7 +24,7 @@
             android:title="@string/block_if_in_call" />
 
         <ListPreference
-            android:defaultValue="2"
+            android:defaultValue="5"
             android:entries="@array/autooff"
             android:entryValues="@array/autooffValues"
             android:key="prefAutooff"

@@ -8,8 +8,8 @@ android {
         applicationId "ru.perm.trubnikov.clicklight"
         minSdkVersion 8
         targetSdkVersion 22
-        versionCode 12
-        versionName "1.1.2"
+        versionCode 15
+        versionName "1.1.5"
     }
     buildTypes {
         release {

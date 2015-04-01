@@ -20,7 +20,6 @@ import android.widget.Toast;
 public class Utils {
 
     public static Camera cam = null;// has to be static, otherwise onDestroy() destroys it
-    public static final int NOTIFICATION_ID = 1;
 
     public static boolean flashlightToggle(Context context) {
         if (cam == null) {
@@ -81,7 +80,7 @@ public class Utils {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(context, context.getString(R.string.error_flash_on), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, context.getString(R.string.error_flash_on), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -95,16 +94,8 @@ public class Utils {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(context, context.getString(R.string.error_flash_off),
-                    Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, context.getString(R.string.error_flash_off), Toast.LENGTH_SHORT).show();
         }
-
-        try {
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-            notificationManager.cancel(NOTIFICATION_ID);
-        } catch (Exception e) {
-        }
-
     }
 
     public static void setPreviewTexture() {
