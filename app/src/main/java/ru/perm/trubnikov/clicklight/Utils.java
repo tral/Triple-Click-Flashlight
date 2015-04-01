@@ -34,6 +34,7 @@ public class Utils {
     }
 
     public static Notification getNotification(Context context) {
+
         Intent intent = new Intent(context, NotifyActivity.class);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
