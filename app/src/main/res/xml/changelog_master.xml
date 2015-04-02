@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="1.1.6"
+        versioncode="16">
+        <change>App now can be installed only on devices which have hardware flashlight</change>
+    </release>
+    <release
+        version="1.1.5"
+        versioncode="15">
+        <change>Bugfixes</change>
+    </release>
+    <release
         version="1.1.2"
         versioncode="12">
         <change>Option for automatic switch off</change>
