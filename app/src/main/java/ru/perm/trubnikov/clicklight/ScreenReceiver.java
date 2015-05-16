@@ -16,10 +16,6 @@ public class ScreenReceiver extends BroadcastReceiver {
             screenOff = false;
         }
         Utils.startSvc(context, screenOff ? "scr_off" : "scr_on");
-
-        //Intent i = new Intent(context, ClickFlashService.class);
-        //i.putExtra("cmd", screenOff ? "scr_off" : "scr_on");
-        //context.startService(i);
     }
 
 }
