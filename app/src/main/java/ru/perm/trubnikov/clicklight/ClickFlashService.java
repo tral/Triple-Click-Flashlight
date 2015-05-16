@@ -24,22 +24,31 @@ public class ClickFlashService extends Service {
 
     private Timer timer;
 
+    /**
+     * Функция, обрабатывающая переключение фонарика из одного состояния в другое
+     */
     private void handleFlashToggle(SharedPreferences settings) {
 
-        // Если установили в настройках запрет срабатывания при вызове и идет вызов - не включаем фонарик
+        // Если установили в настройках запрет срабатывания при вызове и идет вызов - не включаем и не выключаем фонарик
         if (!(settings.getBoolean("prefBlockIfInCall", true) && Utils.isCallActive(getApplicationContext()))) {
+
+            // Есть ли в настройках есть автоотключение?
+            int auto_off = Integer.parseInt(settings.getString("prefAutooff", "5"));
 
             // Переключаем фонарик
             flashToggle(settings.getBoolean("prefVibrate", true));
 
-            // Если в настройках есть автоотключение
-            int auto_off = Integer.parseInt(settings.getString("prefAutooff", "5"));
+            // Дополнительные действия в случае, когда юзер задал автоотключение фонарика
             if (auto_off > 0) {
                 if (Utils.isFlashOn()) {
+                    // Ветка для ВКЛЮЧЕНИЯ фонарика - устанавливаем таймер отключения
                     timer = new Timer();
                     timer.schedule(new timerTask(), auto_off * 60 * 1000);
                     Log.d(LOG_TAG, "---> Timer Sheduled: " + auto_off * 60 * 1000);
                 } else {
+                    // Ветка для ВЫКЛЮЧЕНИЯ фонарика - сносим таймер автоотключения
+                    // т.к. мы сюда могли попасть как по таймеру автоотключения, так и при
+                    // принудительном отключении фонарика юзером
                     try {
                         timer.cancel();
                     } catch (Exception e) {
@@ -50,44 +59,14 @@ public class ClickFlashService extends Service {
             }
         }
 
+        // В любом случае, при переключении состояния фонарика, сбрасываем подсчет нажатий кнопки питания
         resetTimeStamps(settings);
 
     }
 
-    protected void handleClick() {
-
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-        long cur = System.currentTimeMillis();
-        long diff = Utils.diff3(settings.getLong("preLastClick", 0), settings.getLong("lastClick", 0), cur);
-
-        if (diff > 0 && diff < Integer.parseInt(settings.getString("prefInterval", "2000"))) {
-            handleFlashToggle(settings);
-        } else {
-            updateTimeStamps(settings, cur);
-        }
-
-    }
-
-    // Sends update message to activity (for updating FAB image)
-    protected void sendMessageToActivity() {
-        Intent intent = new Intent();
-        intent.setAction(BROADCAST_ACTION);
-        intent.putExtra("DATAPASSED", BROADCAST_FLASH_TOGGLED);
-        sendBroadcast(intent);
-    }
-
-    protected void updateTimeStamps(SharedPreferences settings, long cur) {
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putLong("preLastClick", settings.getLong("lastClick", 0));
-        editor.putLong("lastClick", cur);
-        editor.commit();
-    }
-
-    protected void resetTimeStamps(SharedPreferences settings) {
-        updateTimeStamps(settings, 0);
-    }
-
+    /**
+     * Непосредственное переключение фонарика, должно вызываться только из одного места: handleFlashToggle
+     */
     protected void flashToggle(boolean isVibrate) {
 
         Utils.flashlightToggle(getApplicationContext());
@@ -121,6 +100,26 @@ public class ClickFlashService extends Service {
         sendMessageToActivity();
     }
 
+    // Sends update message to activity (for updating FAB image)
+    protected void sendMessageToActivity() {
+        Intent intent = new Intent();
+        intent.setAction(BROADCAST_ACTION);
+        intent.putExtra("DATAPASSED", BROADCAST_FLASH_TOGGLED);
+        sendBroadcast(intent);
+    }
+
+    protected void updateTimeStamps(SharedPreferences settings, long cur) {
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putLong("preLastClick", settings.getLong("lastClick", 0));
+        editor.putLong("lastClick", cur);
+        editor.commit();
+    }
+
+    protected void resetTimeStamps(SharedPreferences settings) {
+        updateTimeStamps(settings, 0);
+    }
+
+
     public void onCreate() {
         super.onCreate();
 
@@ -136,28 +135,36 @@ public class ClickFlashService extends Service {
         if (intent != null) {
             Bundle b = intent.getExtras();
             String cmd = b.getString("cmd");
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
             if (cmd.equalsIgnoreCase("toggle")) {
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                // Переключение
                 handleFlashToggle(settings);
             } else if (cmd.equalsIgnoreCase("scr_on") || cmd.equalsIgnoreCase("scr_off")) {
-                handleClick();
+                // Анализ нажатия кнопки питания
+                long cur = System.currentTimeMillis();
+                long diff = Utils.diff3(settings.getLong("preLastClick", 0), settings.getLong("lastClick", 0), cur);
+                if (diff > 0 && diff < Integer.parseInt(settings.getString("prefInterval", "2000"))) {
+                    handleFlashToggle(settings);
+                } else {
+                    updateTimeStamps(settings, cur);
+                }
             }
-
         }
 
         Log.d(LOG_TAG, "onStartCommand");
         return super.onStartCommand(intent, flags, startId);
     }
 
+    /**
+     * Событие автоотключения фонарика по таймеру
+     * */
     private class timerTask extends TimerTask {
         public void run() {
-            Log.d(LOG_TAG, "---> timerTask Launched! ");
+            Log.d(LOG_TAG, "---> timerTask Fired! ");
             // Если фонарик светит, тогда вырубим его
             if (Utils.isFlashOn()) {
-                timer.cancel(); // освобождаем таймер (может быть это и не требуется)
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                flashToggle(settings.getBoolean("prefVibrate", true));
+                handleFlashToggle(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
             }
         }
     }

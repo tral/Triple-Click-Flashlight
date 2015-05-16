@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
     <release
+        version="1.1.7"
+        versioncode="17">
+        <change>Исправление ошибок и оптимизация</change>
+    </release>
+    <release
         version="1.1.6"
         versioncode="16">
         <change>Теперь приложение может быть установлено только на устройства с наличием вспышки</change>
